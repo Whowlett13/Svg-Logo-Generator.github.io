@@ -3,61 +3,64 @@ const inquirer = require('inquirer');
 const jest = require('jest');
 const { Circle, Triangle, Square } = require('./Assets/shapes.js');
 const SVG = require('./Assets/svg.js');
-const {writeFile} = require('fs/promises');
-function init(){
-inquirer.prompt([
+const { writeFile } = require('fs/promises');
 
-    {
-        type: 'input',
-        message: "Enter text for the logo. (must not exceed 3 characters)",
-        name: 'text',
+function init() {
+    inquirer.prompt([
 
-    },
-    {
-        type: 'checkbox',
-        message: "what color would you like the logo to be?",
-        choices: ["Green", "Turquoise", "Bisque"],
-        name: 'color',
-    },
-    {
-        type: 'checkbox',
-        message: 'what shape would you like you SVG logo to be?',
-        choices: ['Triangle', 'Square', 'Circle'],
-        name: 'shapeType',
+        {
+            type: 'input',
+            message: "Enter text for the logo. (must not exceed 3 characters)",
+            name: 'text',
 
-    },
-    {
-        type: 'checkbox',
-        message: 'What color would you like the text to be?',
-        choices: ['White', 'Black', 'Blue'],
-        name: 'textColor',
+        },
+        {
+            type: 'checkbox',
+            message: "what color would you like the logo to be?",
+            choices: ["Green", "Turquoise", "Bisque"],
+            name: 'color',
+        },
+        {
+            type: 'checkbox',
+            message: 'what shape would you like you SVG logo to be?',
+            choices: ['Triangle', 'Square', 'Circle'],
+            name: 'shapeType',
 
-    },
+        },
+        {
+            type: 'input',
+            message: 'What color would you like the text to be?',
+            // choices: ['White', 'Black', 'Blue'],
+            name: 'textColor',
 
-])
-    .then(({ text, color, shapeType, textColor }) => {
-        let shape;
-        switch (shapeType) {
-            case "Triangle":
-                shape = new Triangle();
-                break;
-            case "Square":
-                shape = new Square();
-                break;
-            default:
-                shape = new Circle();
-                break;
-        }
-        shape.setColor(color);
-        const svg = new SVG();
-        svg.setText(text, textColor)
+        },
 
-        svg.setShape(shape)
-        return writeFile('Logo.svg', svg.render())
+    ])
+    
+        .then(({ text, color, shapeType, textColor }) => {
+            console.log(text, textColor);
+            let shape;
+            switch (shapeType) {
+                case "Triangle":
+                    shape = new Triangle();
+                    break;
+                case "Square":
+                    shape = new Square();
+                    break;
+                default:
+                    shape = new Circle();
+                    break;
+            }
+            shape.setColor(color);
+            const svg = new SVG();
+            svg.setText(text, textColor)
 
-    }).then(() => {
-        console.log('Generated Logo');
-    }).catch((err) => console.log(err, 'Error No Logo!'));
+            svg.setShape(shape)
+            return writeFile('Logo.svg', svg.render())
+
+        }).then(() => {
+            console.log('Generated Logo');
+        }).catch((err) => console.log(err, 'Error No Logo!'));
 
 
 }
