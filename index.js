@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-// const fs = require('fs');
 const jest = require('jest');
 const { Circle, Triangle, Square } = require('./Assets/shapes.js');
 const SVG = require('./Assets/svg.js');
